@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/trendsvisualiser.iml" filepath="$PROJECT_DIR$/.idea/trendsvisualiser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/trendvisualiser.iml" filepath="$PROJECT_DIR$/.idea/trendvisualiser.iml" />
     </modules>
   </component>
 </project>
