@@ -55,16 +55,16 @@ const TrendGraph: React.FC<{ data: TrendNode[] }> = ({ data }) => {
                 .attr("r", d => size(d.extracted_value))
                 .attr("fill", "green")
                 .on("mouseover", function(event, d) {
-                    tooltip.html(d.location)
+                    tooltip.html(`${d.location}<br/>Trend Score: ${d.extracted_value}`)
                         .style("visibility", "visible");
                 })
                 .on("mousemove", function(event) {
                     tooltip.style("top", (event.pageY - 10) + "px")
-                           .style("left",(event.pageX + 10) + "px");
+                        .style("left", (event.pageX + 10) + "px");
                 })
                 .on("mouseout", function() {
                     tooltip.style("visibility", "hidden");
-                });
+                });            
 
             const labels = svg.append("g")
                 .selectAll("text")
