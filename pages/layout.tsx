@@ -51,6 +51,8 @@ const ResultsSection = styled.div`
     height: 73vh;
     width: 100vw;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 `
 
 const ResultsSectionTitle = styled.h1`

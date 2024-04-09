@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import axios from "axios";
-import {useState} from "react";
+import {SetStateAction, useState} from "react";
 import {
   Main,
   ResultsSection, ResultsSectionTitle,
@@ -10,8 +10,7 @@ import {
   SearchSection,
   SearchSectionTitle
 } from "@/pages/layout";
-
-const inter = Inter({ subsets: ["latin"] });
+import TrendGraph from "@/pages/components/TrendGraph";
 
 export default function Home() {
 
@@ -19,7 +18,7 @@ export default function Home() {
   const [searchField, setSearchField] = useState("");
   const [topicTrends, setTopicTrends] = useState([]);
 
-  const handleSearchFieldChange = (event) => {
+  const handleSearchFieldChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchField(event.target.value);
   }
 
@@ -31,7 +30,7 @@ export default function Home() {
       },
     }).then(response => {
       console.log(response.data);
-      setTopic(response.data);
+      setTopicTrends(response.data);
     }).catch(error => {
       console.log(error);
     });
@@ -64,8 +63,8 @@ export default function Home() {
           <ResultsSection>
             <ResultsSectionTitle>
               Your Topic is Trending in:
-
             </ResultsSectionTitle>
+            <TrendGraph data={topicTrends} />
           </ResultsSection>
         </div>
       </Main>
