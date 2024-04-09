@@ -1,9 +1,10 @@
 import { Inter } from "next/font/google";
 import axios from "axios";
-import {SetStateAction, useState} from "react";
+import { SetStateAction, useState, useEffect } from "react";  // Import useEffect here
 import {
   Main,
-  ResultsSection, ResultsSectionTitle,
+  ResultsSection,
+  ResultsSectionTitle,
   SearchButton,
   SearchContainer,
   SearchField,
@@ -18,23 +19,30 @@ export default function Home() {
   const [searchField, setSearchField] = useState("");
   const [topicTrends, setTopicTrends] = useState([]);
 
-  const handleSearchFieldChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+  const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
   }
 
   const handleButtonClick = async () => {
     setTopic(searchField);         // sets the state of topic to the value in the search field
-    axios.post('/api/proxy', {
-      data: {
-        topic: topic,
-      },
-    }).then(response => {
-      console.log(response.data);
-      setTopicTrends(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
   }
+
+  // Monitor the `topic` state variable and trigger the axios request whenever it changes.
+  useEffect(() => {
+    console.log(topic);
+    if (topic) {
+      axios.post('/api/proxy', {
+        topic: topic,
+      }).then(response => {
+        console.log(response.data);
+        // Filter out items with an extracted_value of 0 and then set the state
+        const filteredData = response.data.filter(d => d.extracted_value > 0);
+        setTopicTrends(filteredData);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+  }, [topic]);
 
   return(
       <Main>
@@ -62,7 +70,7 @@ export default function Home() {
         <div>
           <ResultsSection>
             <ResultsSectionTitle>
-              Your Topic is Trending in:
+              {topic} is Trending in:
             </ResultsSectionTitle>
             <TrendGraph data={topicTrends} />
           </ResultsSection>
